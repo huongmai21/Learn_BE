@@ -1,0 +1,19 @@
+Trong FastAPI, Request Body (nd yêu cầu) là phần của một yêu cầu HTTP chứa dữ liệu mà bạn gửi đến máy chủ. 
+Trong các ứng dụng API, dữ liệu trong Request Body thường được sử dụng để tạo mới hoặc cập nhật tài nguyên.
+
+1. Khi bạn cần gửi dữ liệu từ một ứng dụng khách (giả sử là trình duyệt) tới API của mình, 
+bạn hãy gửi dữ liệu đó dưới dạng nội dung yêu cầu.
+
+2.  Nội dung yêu cầu là dữ liệu được khách hàng gửi tới API của bạn. 
+    Nội dung phản hồi là dữ liệu mà API của bạn gửi cho khách hàng.
+
+3. API của bạn hầu như luôn phải gửi nội dung phản hồi.
+  Nhưng khách hàng không nhất thiết phải gửi nội dung yêu cầu mọi lúc.
+
+4. Để khai báo phần thân yêu cầu, bạn sử dụng các mô hình "Pydantic" với tất cả sức mạnh và lợi ích của chúng.
+
+5.  - Để gửi dữ liệu, bạn nên sử dụng một trong: POST (phổ biến hơn), PUT, DELETE hoặc PATCH.
+    - Việc gửi nội dung với yêu cầu GET có hành vi không xác định trong thông số kỹ thuật, 
+    tuy nhiên, nó được FastAPI hỗ trợ, chỉ dành cho các trường hợp sử dụng rất phức tạp/cực đoan.
+    - Vì điều này không được khuyến khích nên các tài liệu tương tác với Swagger UI sẽ không hiển thị tài liệu 
+    cho nội dung khi sử dụng GET và các proxy ở giữa có thể không hỗ trợ tài liệu đó.

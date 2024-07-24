@@ -1,0 +1,79 @@
+# Với mysql
+Sử dụng MySQL với FastAPI thường bao gồm các bước sau: 
++ cài đặt thư viện MySQL, 
++ thiết lập kết nối cơ sở dữ liệu, 
++ sử dụng ORM (Object Relational Mapping) để tương tác với cơ sở dữ liệu. 
+ chúng ta sẽ sử dụng SQLAlchemy, một ORM phổ biến cho Python, 
+ cùng với mysql-connector-python để kết nối MySQL.
+
+B1: Cài đặt thư viện cần thiết
+    pip install fastapi uvicorn sqlalchemy mysql-connector-python
+
+B2: Thiết lập cơ sở dữ liệu
+- MySQL : CREATE DATABASE fastapi_db;
+
+B3: Cấu hình kết nối csdl
+- Dưới đây là một ví dụ về cách thiết lập kết nối cơ sở dữ liệu trong FastAPI sử dụng SQLAlchemy: 
++ Cấu trúc thư mục dự án:
+*css:
+    .
+    ├── main.py
+    ├── models.py
+    └── database.py
+
+*database.py:
+    from sqlalchemy import create_engine
+    from sqlalchemy.ext.declarative import declarative_base
+    from sqlalchemy.orm import sessionmaker
+
+    DATABASE_URL = "mysql+mysqlconnector://username:password@localhost/fastapi_db"  #Thay thế username và password bằng thông tin đăng nhập MySQL của bạn.
+
+    engine = create_engine(DATABASE_URL)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    Base = declarative_base()
+
+*models.py:
+    from sqlalchemy import Column, Integer, String, Float
+    from .database import Base
+
+    class Item(Base):
+        __tablename__ = "items"
+
+        id = Column(Integer, primary_key=True, index=True)
+        name = Column(String, index=True)
+        description = Column(String, index=True)
+        price = Column(Float)
+        tax = Column(Float)
+
+*main.py:
+    from fastapi import FastAPI, Depends, HTTPException
+    from sqlalchemy.orm import Session
+    from . import models, database
+
+    models.Base.metadata.create_all(bind=database.engine)
+
+    app = FastAPI()
+
+    def get_db():
+        db = database.SessionLocal()
+        try:
+            yield db
+        finally:
+            db.close()
+
+    @app.post("/items/", response_model=models.Item)
+    def create_item(item: models.Item, db: Session = Depends(get_db)):
+        db.add(item)
+        db.commit()
+        db.refresh(item)
+        return item
+
+    @app.get("/items/{item_id}", response_model=models.Item)
+    def read_item(item_id: int, db: Session = Depends(get_db)):
+        item = db.query(models.Item).filter(models.Item.id == item_id).first()
+        if item is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return item
+
+B4: Chạy ứng dụng
+    uvicorn main:app --reload
