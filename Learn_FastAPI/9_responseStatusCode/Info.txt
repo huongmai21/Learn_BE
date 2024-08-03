@@ -1,0 +1,42 @@
+Tương tự như cách bạn có thể chỉ định mô hình phản hồi, bạn cũng có thể khai báo mã trạng thái HTTP được sử dụng cho phản hồi với tham số status_code trong bất kỳ thao tác đường dẫn nào:
++ @app.get() : Read
++ @app.post() :Create
++ @app.put() :Update
++ @app.delete() : Delete
+
+- Lưu ý rằng "status_code" là một tham số của phương thức "decorator" (get, post, v.v.).
+  Không phải chức năng vận hành đường dẫn của bạn, giống như tất cả các tham số và nội dung.
+- Ngoài ra "status_code" còn có thể nhận IntEnum. 
+- Kết quả trả về mã trạng thái đó
+
+-Vd:
+    @app.post("/items/", status_code=201)
+    async def create_item(name: str):
+        return {"name": name}
+
+* About HTTP status codes *
+Trong HTTP, bạn gửi mã trạng thái dạng số gồm 3 chữ số như một phần của phản hồi.
+Các mã trạng thái này có tên đi kèm để nhận biết, nhưng phần quan trọng là con số.
+
++ 100(+) : dành cho "thông tin". Sẽ hiếm khi sd trực tiếp. Phản hồi có mã trạng thái này ko thể có nội dung
++ 200(+) : Là phản hồi "thành công". "200" là trạng thái mặc định , có nghĩa là mọi thứ "OK" 
++ 201 : "Đã tạo". thường đc sd sau khi tạo 1 bản ghi mới trong csdl
++ 204 : "Ko có nd". Đc sd khi ko có nd trả về máy khách (client) và do dó phản hồi ko đc có n
++ 300(+) : dành cho "chuyển hướng (Redirection)". Phản hồi có các mã trạng thái này có thể có or ko có nd.
++ 304 : "Ko đc sửa đổi(Not modified)". Phản hồi từ mã này ko đc có nd
++ 400(+) : dành cho phản hồi "Lỗi máy khách(Client error)". đối với những lỗi chung từ máy khách bạn chỉ có thể sd 400
++ 404 : cho pahnr hồi "Ko tìm thấy(Not found)"
++ 500(+) : Là do lỗi máy chủ. bạn gần như ko bh sử dụng chúng trực tiếp.
+            Khi có sự cố xảy ra ở 1 phần ào đó trng mã ứng dụng or máy chủ của bạn, nó sẽ tự động trả về 1 trong các mã trạng thái này.
++ ...
+
+* Phím tắt để nhớ tên *
+- Bạn có thể sử dụng các biến tiện lợi từ fastapi.status
+-Vd:
+    from fastapi import FastAPI, status
+
+    app = FastAPI()
+
+    @app.post("/items/", status_code=status.HTTP_201_CREATED)
+    async def create_item(name: str):
+        return {"name": name}

@@ -1,0 +1,6 @@
+Điều này đặc biệt đúng đối với các mô hình người dùng, bởi vì:
++ Mô hình đầu vào cần có khả năng có mật khẩu.
++ Mô hình đầu ra không được có mật khẩu.
++ Mô hình cơ sở dữ liệu có thể cần phải có mật khẩu băm (hashed password).
+    *Không bao giờ lưu trữ mật khẩu văn bản gốc của người dùng. 
+     Luôn lưu trữ "băm an toàn"(secure hash) mà sau đó bạn có thể xác minh.

@@ -1,0 +1,48 @@
+*String Validations*
+Trong FastAPI giúp bạn xác thực và giới hạn các giá trị chuỗi nhận được từ các tham số URL, query parameters, hoặc request body. 
+Bạn có thể sử dụng các tham số bổ sung từ Pydantic để thực hiện việc này.
+- Vd:
+    from fastapi import FastAPI, Query
+
+    app = FastAPI()
+
+    @app.get("/items/")
+    def read_items(q: str = Query(default=None, min_length=3, max_length=50, regex="^fixedquery$")):
+        return {"q": q}
+
+- Giải thích:
+URL: /items/?q=fixedquery
+Response: {"q": "fixedquery"}
+
+URL: /items/?q=sh
+Response: 422 Unprocessable Entity
+
+Trong ví dụ trên:
+min_length=3: yêu cầu độ dài tối thiểu của chuỗi là 3 ký tự.
+max_length=50: yêu cầu độ dài tối đa của chuỗi là 50 ký tự.
+regex="^fixedquery$": chuỗi phải khớp với biểu thức chính quy này (chỉ cho phép giá trị "fixedquery").
+
+
+*Kết hợp : Thêm thông tin ràng buộc cho Qurey Parameter*
+- Cần Import Query and Annotated:
+    from typing import Annotated
+    from fastapi import FastAPI, Query
+
+- Use Annotated in the type for the q parameter 
+q: str | None = None  => q: Annotated[str | None] = None
+
+- Add Query to Annotated in the q parameter
+q: Annotated[str | None, Query(max_length=50)] = None
+
+- Xác thực chung:
+    + alias: đặt bí danh cho tên biến trong source, người dùng api sử dụng bí danh, coder sử dụng tên biến trong source
+    + title: tiêu đề cho biến - hiển thị trong fastapi docs
+    + description: mô tả cho biến - hiển thị trong fastapi docs
+    + deprecated: thêm chú thích - biến này không còn được sử dụng nữa
+    + Query(include_in_schema=False) : không hiển thị biến trong fastapi docs
+
+- Xác thực cụ thể cho dữ liệu :
+    + min_length: chiều dài nhỏ nhất của tham số truy vấn
+    + max_length: chiều dài lớn nhất của tham số truy vấn
+    + pattern : quy định về cú pháp của tham số truy vấn (giống regex)
+

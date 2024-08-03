@@ -1,0 +1,15 @@
+*Ưu điểm của Annotated*
+- Nên sử dụng Annotated thay vì giá trị mặc định trong tham số hàm, vì nhiều lý do.
+
+- Giá trị mặc định của tham số hàm là giá trị mặc định thực tế, trực quan hơn với Python nói chung. 
+
+- Bạn có thể gọi cùng một hàm đó ở những nơi khác mà không cần FastAPI và nó sẽ hoạt động như mong đợi. 
+Nếu có tham số bắt buộc (không có giá trị mặc định), trình soạn thảo của bạn sẽ cho bạn biết với lỗi, 
+Python cũng sẽ phàn nàn nếu bạn chạy mà không truyền tham số bắt buộc.
+
+- Khi bạn không sử dụng Annotated và thay vào đó sử dụng kiểu giá trị mặc định (cũ),
+nếu bạn gọi hàm đó mà không cần FastAPI ở nơi khác, bạn phải nhớ truyền đối số cho hàm để hàm hoạt động chính xác, 
+nếu không, các giá trị sẽ khác với những gì bạn mong đợi (ví dụ: QueryInfo hoặc một cái gì đó tương tự thay vì str). 
+Và trình soạn thảo của bạn sẽ không phàn nàn và Python sẽ không phàn nàn khi chạy hàm đó, chỉ khi các hoạt động bên trong xảy ra lỗi.
+
+- Vì Annotated có thể có nhiều hơn một chú thích siêu dữ liệu, nên giờ đây bạn thậm chí có thể sử dụng cùng một chức năng với các công cụ khác, như Typer. 

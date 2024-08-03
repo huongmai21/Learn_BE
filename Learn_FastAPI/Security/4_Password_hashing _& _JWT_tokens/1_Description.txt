@@ -1,0 +1,8 @@
+Quy trình xác thực user:
+1. Xác thực thông tin đăng nhập và trả về token
+    1.1. Xác thực thông tin (hàm authenticate_user)
+    1.2. Tạo jwt (token) (hàm create_access_token)
+
+2. Lấy dữ liệu của user
+    2.1. Giải mã token kiểm tra sự tồn tại của user (hàm get_current_user)
+    2.2. Kiểm tra trạng thái hoạt động của user (hàm get_current_active_user)

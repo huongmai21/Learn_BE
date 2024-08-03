@@ -1,0 +1,38 @@
+Bạn có thể xác định các tệp sẽ được khách hàng tải lên bằng cách sử dụng File.Bạn có thể xác định các tệp sẽ được khách hàng tải lên bằng cách sử dụng File.
+Để nhận các tệp đã tải lên, trước tiên hãy cài đặt python-multipart
+
+File là lớp kế thừa trực tiếp từ Form.
+Nhưng hãy nhớ rằng khi bạn nhập Truy vấn, Đường dẫn, Tệp và các nội dung khác từ fastapi, đó thực sự là các hàm trả về các lớp đặc biệt.
+
+Các tập tin sẽ được tải lên dưới dạng "dữ liệu biểu mẫu".
+
+Nếu bạn khai báo loại tham số hàm vận hành đường dẫn của mình dưới dạng byte, FastAPI sẽ đọc tệp cho bạn và bạn sẽ nhận được nội dung dưới dạng byte.
+Hãy nhớ rằng điều này có nghĩa là toàn bộ nội dung sẽ được lưu trữ trong bộ nhớ. Điều này sẽ hoạt động tốt cho các tập tin nhỏ.
+Nhưng có một số trường hợp bạn có thể hưởng lợi từ việc sử dụng UploadFile.
+
+* With UploadFile *
+- Sử dụng UploadFile có một số lợi thế so với byte:
++ Bạn không cần phải sử dụng File() trong giá trị mặc định của tham số.
++ Nó sử dụng một tập tin "được lưu trữ (spooled)":
++ Một tệp được lưu trữ trong bộ nhớ có giới hạn kích thước tối đa và sau khi vượt qua giới hạn này, nó sẽ được lưu trữ trên đĩa.
++ Điều này có nghĩa là nó sẽ hoạt động tốt đối với các tệp lớn như hình ảnh, video, tệp nhị phân lớn, v.v. mà không tiêu tốn hết bộ nhớ.
++ Bạn có thể lấy siêu dữ liệu từ tệp đã tải lên.
++ Nó có giao diện không đồng bộ giống như tập tin.
++ Nó hiển thị một đối tượng Python SpooledTemporaryFile thực tế mà bạn có thể chuyển trực tiếp đến các thư viện khác mong đợi một đối tượng giống như tệp.
+
+- UploadFile có các thuộc tính sau:
++ filename : 1 str đc tải lên với tệp gốc
++ content_type : 1 str với type nd (MIME type / media type) 
+                ex: image/jpeg
++ file : 1  SpooledTemporaryFile (1 đối tượng giống Tệp). Đây là tệp Python thực tế mà bạn có thể chuyển trực tiếp 
+        đến các hàm hoặc thư viện khác mong đợi một đối tượng "giống như tệp".
+
+
+- UploadFile có các phương thức không đồng bộ sau. Tất cả đều gọi các phương thức tệp tương ứng bên dưới (sử dụng SpooledTemporaryFile nội bộ).
++ write(data): str or bytes
++ read(size) : size (int)bytes/characters
++ seek(offset) : Đi tới vị trí byte offset (int) trong tệp.
+Ví dụ: "await myfile.seek(0)" sẽ chuyển đến phần đầu của tệp.
+Điều này đặc biệt hữu ích nếu bạn chạy "await myfile.read()" một lần và sau đó cần đọc lại nội dung.
++ close(): đóng file
+

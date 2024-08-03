@@ -1,0 +1,19 @@
+- Ví dụ: theo một trong những cách có thể sử dụng đặc tả OAuth2 (được gọi là "luồng mật khẩu"), cần phải gửi tên người dùng và mật khẩu dưới dạng trường biểu mẫu.
+Thông số kỹ thuật yêu cầu các trường phải được đặt tên chính xác tên người dùng và mật khẩu, đồng thời phải được gửi dưới dạng trường biểu mẫu chứ không phải JSON.
+Với Biểu mẫu, bạn có thể khai báo các cấu hình tương tự như với Nội dung (và Truy vấn, Đường dẫn, Cookie), bao gồm xác thực, ví dụ, bí danh 
+(ví dụ: user-name thay vì username),...
+
+- Form là lớp kế thừa trực tiếp từ Body.
+
+-Để khai báo nội dung biểu mẫu, bạn cần sử dụng Biểu mẫu một cách rõ ràng, vì nếu không có nó, các tham số sẽ được hiểu là tham số truy vấn hoặc tham số nội dung (JSON).
+
+* About "Form Fields *
+Cách các biểu mẫu HTML (<form></form>) gửi dữ liệu đến máy chủ thường sử dụng mã hóa "đặc biệt" cho dữ liệu đó, nó khác với JSON.
+FastAPI sẽ đảm bảo đọc dữ liệu đó từ đúng nơi thay vì JSON.
+
+Dữ liệu từ các biểu mẫu thường được mã hóa bằng ứng dụng "loại phương tiện" application/x-www-form-urlencoded.
+Nhưng khi biểu mẫu bao gồm các tệp, nó được mã hóa dưới dạng nhiều phần/dữ liệu biểu mẫu.
+
+- Chú thích:
+Bạn có thể khai báo nhiều tham số Biểu mẫu trong một thao tác đường dẫn, nhưng bạn cũng không thể khai báo các trường Nội dung mà bạn muốn nhận dưới dạng JSON, vì yêu cầu sẽ có nội dung được mã hóa bằng cách sử dụng application/x-www-form-urlencoded thay vì application/ json.
+Đây không phải là hạn chế của FastAPI, nó là một phần của giao thức HTTP.
