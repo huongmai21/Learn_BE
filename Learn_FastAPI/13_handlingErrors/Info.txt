@@ -1,0 +1,17 @@
+Có nhiều tình huống bạn cần thông báo lỗi cho khách hàng đang sử dụng API của bạn.
+Ứng dụng khách này có thể là một trình duyệt có giao diện người dùng, mã từ người khác, thiết bị IoT, v.v.
+Bạn có thể cần nói với khách hàng rằng:
+
+The client doesn't have enough privileges for that operation.
+The client doesn't have access to that resource.
+The item the client was trying to access doesn't exist.
+
+Trong những trường hợp này, thông thường bạn sẽ trả về mã trạng thái HTTP trong phạm vi 400 (từ 400 đến 499).(xảy ra lỗi từ máy khách)
+Điều này tương tự với 200 mã trạng thái HTTP (từ 200 đến 299). Mã trạng thái "200" đó có nghĩa là bằng cách nào đó yêu cầu đã "thành công".
+
+Để trả về phản hồi HTTP có lỗi cho máy khách, bạn sử dụng HTTPException.
+HTTPExceptionlà một ngoại lệ Python bình thường với dữ liệu bổ sung có liên quan đến API. 
+Vì vậy bạn ko thể "return" mà phải raise 
+
+
+
