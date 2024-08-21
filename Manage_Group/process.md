@@ -55,8 +55,7 @@
 
 
 
-*B5:* Tạo các mô hình Pydantic (lược đồ) sẽ được sử dụng để xác thực
-     và phản hồi yêu cầu in schemas.py
+*B5:* Tạo các mô hình Pydantic (lược đồ) sẽ được sử dụng để xác thực và phản hồi yêu cầu in schemas.py
 - NHIỆM VỤ:
     + Chứa các lược đồ (schemas) Pydantic
     + Những lược đồ này xác định hình dạng dữ liệu mà API sẽ nhận vào hoặc trả về
@@ -95,7 +94,11 @@
             return db.query(models.User).filter(models.User.id == user_id).first()
         
         def create_user(db: Session, user: schemas.UserCreate):
-            db_user = models.User(name=user.name, email=user.email, hashed_password=user.password)
+            db_user = models.User(
+                name=user.name, 
+                email=user.email, 
+                hashed_password=user.password
+            )
             db.add(db_user)
             db.commit()
             db.refresh(db_user)
@@ -132,27 +135,27 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
   
 *B10:* Expanding the Application (Mở rộng ứng dụng)
     - To expand this application, consider adding:
-    + User Authentication: Use FastAPI's OAuth2PasswordBearer for token-based authentication.
-    + Comments: Create a Comment model linked to Blog.
-    + Tags/Categories: Add models to organize blogs.
-    + Admin Interface: Create routes for managing content.
-    + This basic setup should give you a solid foundation for creating a FastAPI-based blog.
+        + User Authentication: Use FastAPI's OAuth2PasswordBearer for token-based authentication.
+        + Comments: Create a Comment model linked to Blog.
+        + Tags/Categories: Add models to organize blogs.
+        + Admin Interface: Create routes for managing content.
+        + This basic setup should give you a solid foundation for creating a FastAPI-based blog.
 
 
     - Để mở rộng ứng dụng này, hãy xem xét thêm:
-    + Xác thực người dùng: Sử dụng OAuth2PasswordBearer của FastAPI để xác thực dựa trên mã thông báo.
-    + Bình luận: Tạo mô hình Bình luận được liên kết với Blog.
-    + Thẻ/Danh mục: Thêm mô hình để sắp xếp blog.
-    + Giao diện quản trị: Tạo tuyến đường để quản lý nội dung.
-    + Thiết lập cơ bản này sẽ cung cấp cho bạn nền tảng vững chắc để tạo blog dựa trên FastAPI.
+        + Xác thực người dùng: Sử dụng OAuth2PasswordBearer của FastAPI để xác thực dựa trên mã thông báo.
+        + Bình luận: Tạo mô hình Bình luận được liên kết với Blog.
+        + Thẻ/Danh mục: Thêm mô hình để sắp xếp blog.
+        + Giao diện quản trị: Tạo tuyến đường để quản lý nội dung.
+        + Thiết lập cơ bản này sẽ cung cấp cho bạn nền tảng vững chắc để tạo blog dựa trên FastAPI.
 
 
 **THÊM**
 
 *1. File "utils.py" *
 - Chứa các hàm tiện ích (Utility Functions)
-+ File này có thể chứa các hàm tiện ích giúp thực hiện các tác vụ lặp đi lặp lại hoặc các phép toán phổ biến. 
-+ Ví dụ:
+    + File này có thể chứa các hàm tiện ích giúp thực hiện các tác vụ lặp đi lặp lại hoặc các phép toán phổ biến. 
+    + Ví dụ:
 
         def generate_unique_id() -> str:
             import uuid
@@ -163,16 +166,16 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
 
 
 - Hàm Xử Lý Chuỗi và Dữ Liệu
-+  Cắt chuỗi, thay đổi định dạng, hoặc xác thực dữ liệu...
-+ Ví dụ:
+    +  Cắt chuỗi, thay đổi định dạng, hoặc xác thực dữ liệu...
+    + Ví dụ:
 
         def sanitize_input(input_string: str) -> str:
             return input_string.strip().lower()
 
 
 - Hàm Xác Thực và Mã Hóa
-+ Nếu bạn cần thực hiện các phép mã hóa hoặc xác thực như hash mật khẩu, mã hóa dữ liệu, hoặc xác thực JWT, bạn có thể đặt các hàm này vào util.py.
-+ Ví dụ:
+    + Nếu bạn cần thực hiện các phép mã hóa hoặc xác thực như hash mật khẩu, mã hóa dữ liệu, hoặc xác thực JWT, bạn có thể đặt các hàm này vào util.py.
+    + Ví dụ:
 
         from passlib.context import CryptContext
     
@@ -186,8 +189,8 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
 
 
 - Hàm Tương Tác với Cơ Sở Dữ Liệu
-+ Chẳng hạn như xây dựng truy vấn, chuyển đổi dữ liệu, hoặc xử lý các thao tác dữ liệu chung.
-+ Ví dụ:
+    + Chẳng hạn như xây dựng truy vấn, chuyển đổi dữ liệu, hoặc xử lý các thao tác dữ liệu chung.
+    + Ví dụ:
 
         from sqlalchemy.orm import Session
         from .models import User
@@ -197,8 +200,8 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
 
 
 - Cấu Hình và Tùy Chỉnh
-+ Các hàm để tải cấu hình, thiết lập cài đặt, hoặc xử lý các tùy chỉnh cụ thể.
-+ Ví dụ:
+    + Các hàm để tải cấu hình, thiết lập cài đặt, hoặc xử lý các tùy chỉnh cụ thể.
+    + Ví dụ:
  
     import os
 
@@ -208,7 +211,7 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
 
 
 - Hàm Xử Lý Lỗi và Ghi Log
-+ Ví dụ:
+    + Ví dụ:
 
         import logging
     
@@ -219,6 +222,7 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
 
 
 - Ví dụ cách sử dụng:
+    
     *main.py*
 
         from util import generate_unique_id, format_date, hash_password, verify_password
@@ -234,8 +238,8 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
 *2. File "enums.py" *
 
 - Định nhĩa các Enum:
-+ Giúp mã nguồn dễ hiểu hơn và dễ bảo trì hơn bằng cách thay thế các giá trị hằng số bằng các tên ý nghĩa.
-+ Ví dụ:
+    + Giúp mã nguồn dễ hiểu hơn và dễ bảo trì hơn bằng cách thay thế các giá trị hằng số bằng các tên ý nghĩa.
+    + Ví dụ:
 
         from enum import Enum
     
@@ -245,7 +249,7 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
             PENDING = "pending"
 
 - Tăng Cường Tính Chính Xác và Dễ Đọc:
-+ Ví dụ:
+    + Ví dụ:
 
         def get_status_message(status: Status) -> str:
         if status == Status.ACTIVE:
@@ -256,7 +260,7 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
             return "The item is pending."
 
 - Hỗ Trợ Trong Các Mô Hình Dữ Liệu và API:
-+ Ví dụ:
+    + Ví dụ:
 
         from pydantic import BaseModel
         from enums import Status
@@ -266,7 +270,7 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
             status: Status
 
 - Sử Dụng Trong Truy Vấn và Xử Lý Dữ Liệu:
-+ Ví dụ:
+    + Ví dụ:
 
         from sqlalchemy import Enum as SQLAlchemyEnum
     
@@ -276,7 +280,7 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
             status = Column(SQLAlchemyEnum(Status), nullable=False, default=Status.PENDING)
 
 - Ví dụ cách sử dụng:
-
+    
     *main.py*
 
         from enums import PostStatus, UserRole
