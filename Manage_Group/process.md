@@ -41,7 +41,7 @@
     + Chứa các mô hình dữ liệu (models) được định nghĩa bằng SQLAlchemy để tương tác với CSDL.
     + Mỗi mô hình thường biểu diễn một bảng trong CSDL.
 
--CODE cơ bản:
+- CODE cơ bản:
 
     from sqlalchemy import Column, Integer, String
     from .database import Base
@@ -133,7 +133,7 @@ Trong main.py, tạo FastAPI instance và xác định các routes:
 *B10:* Expanding the Application (Mở rộng ứng dụng)
     - To expand this application, consider adding:
     + User Authentication: Use FastAPI's OAuth2PasswordBearer for token-based authentication.
-     +Comments: Create a Comment model linked to Blog.
+    + Comments: Create a Comment model linked to Blog.
     + Tags/Categories: Add models to organize blogs.
     + Admin Interface: Create routes for managing content.
     + This basic setup should give you a solid foundation for creating a FastAPI-based blog.
